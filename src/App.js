@@ -13,22 +13,35 @@ class App extends Component {
   state = {
     hits: [],
   };
-  componentDidMount() {
+
+  // componentDidMount() {
+  //   axios
+  //     .get(
+  //       `${URL}?key=${API_KEY}&q=cat&image_type=photo&orientation=horizontal&page=1&per_page=12`,
+  //     )
+  //     .then(response => {
+  //       this.setState({
+  //         hits: response.data.hits,
+  //       });
+  //     });
+  // }
+
+  onChangeQuery = query => {
     axios
       .get(
-        `${URL}?key=${API_KEY}&q=cat&image_type=photo&orientation=horizontal&page=1&per_page=12`,
+        `${URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&page=1&per_page=12`,
       )
       .then(response => {
         this.setState({
           hits: response.data.hits,
         });
       });
-  }
+  };
 
   render() {
     return (
       <>
-        <Searchbar />
+        <Searchbar onSubmit={this.onChangeQuery} />
         <ImageGallery hits={this.state.hits} />
         <Modal />
       </>
