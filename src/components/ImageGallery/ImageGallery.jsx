@@ -1,7 +1,6 @@
 import React from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
-import Loader from 'react-loader-spinner';
-import Button from './Button';
+// import Button from './Button';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const ImageGallery = ({ hits }) => {
@@ -18,8 +17,7 @@ const ImageGallery = ({ hits }) => {
           );
         })}
       </ul>
-      <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
-      <Button />
+      {/* <Button hits={hits} onClick={onClick} /> */}
     </>
   );
 };

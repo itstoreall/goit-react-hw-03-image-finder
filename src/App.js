@@ -1,48 +1,65 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Searchbar from './components/Searchbar';
+import hitsApi from './services/hitsApi';
+import Loader from 'react-loader-spinner';
 import ImageGallery from './components/ImageGallery';
+import Button from './components/Button';
 import Modal from './components/Modal';
 import 'modern-normalize/modern-normalize.css';
 import './styles.scss';
 
-const API_KEY = '20531807-1479c72a34e3a5f5276de9d68';
-const URL = 'https://pixabay.com/api/';
-
 class App extends Component {
   state = {
     hits: [],
+    currentPage: 1,
+    searchQuery: '',
+    isLoading: false,
+    error: null,
   };
 
-  // componentDidMount() {
-  //   axios
-  //     .get(
-  //       `${URL}?key=${API_KEY}&q=cat&image_type=photo&orientation=horizontal&page=1&per_page=12`,
-  //     )
-  //     .then(response => {
-  //       this.setState({
-  //         hits: response.data.hits,
-  //       });
-  //     });
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    prevState.searchQuery !== this.state.searchQuery && this.fetchHits();
+  }
 
   onChangeQuery = query => {
-    axios
-      .get(
-        `${URL}?key=${API_KEY}&q=${query}&image_type=photo&orientation=horizontal&page=1&per_page=12`,
-      )
-      .then(response => {
-        this.setState({
-          hits: response.data.hits,
-        });
-      });
+    this.setState({
+      searchQuery: query,
+      currentPage: 1,
+      hits: [],
+      error: null,
+    });
+  };
+
+  fetchHits = () => {
+    const { currentPage, searchQuery } = this.state;
+    const options = { currentPage, searchQuery };
+
+    this.setState({ isLoading: true });
+
+    hitsApi
+      .fetchHits(options)
+      .then(hits => {
+        this.setState(prevState => ({
+          hits: [...prevState.hits, ...hits],
+          currentPage: prevState.currentPage + 1,
+        }));
+      })
+      .catch(error => this.setState({ error }))
+      .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
+    const { hits, isLoading, error } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
+        {error && <span>ERROR</span>}
         <ImageGallery hits={this.state.hits} />
+        {isLoading && (
+          <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+        )}
+        <Button hits={hits} isLoading={isLoading} onClick={this.fetchHits} />
         <Modal />
       </>
     );
@@ -50,6 +67,3 @@ class App extends Component {
 }
 
 export default App;
-
-// 20531807-1479c72a34e3a5f5276de9d68
-// https://pixabay.com/api/
