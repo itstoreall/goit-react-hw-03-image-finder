@@ -1,7 +1,16 @@
 import React from 'react';
+import Searchbar from './components/Searchbar';
+import ImageGallery from './components/ImageGallery';
+import Modal from './components/Modal';
 
 function App() {
-  return <p>Hi from App</p>;
+  return (
+    <>
+      <Searchbar />
+      <ImageGallery />
+      <Modal />
+    </>
+  );
 }
 
 export default App;
