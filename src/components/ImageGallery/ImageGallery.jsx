@@ -1,23 +1,22 @@
 import React from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
-// import Button from './Button';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
-const ImageGallery = ({ hits }) => {
+const ImageGallery = ({ hits, onClick }) => {
   return (
     <>
       <ul className="ImageGallery">
-        {hits.map(hit => {
+        {hits.map((hit, index) => {
           return (
             <ImageGalleryItem
-              key={hit.id}
+              key={`${index}${hit.id}`}
               src={hit.webformatURL}
               alt={hit.tags}
+              onClick={onClick}
             />
           );
         })}
       </ul>
-      {/* <Button hits={hits} onClick={onClick} /> */}
     </>
   );
 };

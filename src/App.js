@@ -16,10 +16,16 @@ class App extends Component {
     searchQuery: '',
     isLoading: false,
     error: null,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
     prevState.searchQuery !== this.state.searchQuery && this.fetchHits();
+
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   }
 
   onChangeQuery = query => {
@@ -49,18 +55,24 @@ class App extends Component {
       .finally(() => this.setState({ isLoading: false }));
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { hits, isLoading, error } = this.state;
+    const { hits, isLoading, error, showModal } = this.state;
     return (
       <>
         <Searchbar onSubmit={this.onChangeQuery} />
         {error && <span>ERROR</span>}
-        <ImageGallery hits={this.state.hits} />
+        <ImageGallery hits={this.state.hits} onClick={this.toggleModal} />
         {isLoading && (
           <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
         )}
         <Button hits={hits} isLoading={isLoading} onClick={this.fetchHits} />
-        <Modal />
+        {showModal && <Modal onClose={this.toggleModal} />}
       </>
     );
   }
