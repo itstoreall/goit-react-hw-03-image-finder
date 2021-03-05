@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 import Searchbar from './components/Searchbar';
 import hitsApi from './services/hitsApi';
 import Loader from 'react-loader-spinner';
@@ -22,12 +21,14 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    prevState.searchQuery !== this.state.searchQuery && this.fetchHits();
+    const { searchQuery, hits } = this.state;
+    prevState.searchQuery !== searchQuery && this.fetchHits();
 
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+    prevState.hits.length !== hits.length &&
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
   }
 
   onChangeQuery = query => {
@@ -68,6 +69,7 @@ class App extends Component {
   };
 
   render() {
+    const { onChangeQuery, toggleModal, fetchHits } = this;
     const {
       hits,
       isLoading,
@@ -76,7 +78,6 @@ class App extends Component {
       largeImageURL,
       alt,
     } = this.state;
-    const { onChangeQuery, toggleModal, fetchHits } = this;
 
     return (
       <>

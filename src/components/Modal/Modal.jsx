@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
+import s from './Modal.module.scss';
 const modalRoot = document.querySelector('#modalRoot');
 
 class Modal extends Component {
@@ -20,8 +21,8 @@ class Modal extends Component {
     const { largeImageURL, alt } = this.props;
 
     return createPortal(
-      <div className="Overlay" onClick={this.handleBackdropClick}>
-        <div className="Modal">
+      <div className={s.Overlay} onClick={this.handleBackdropClick}>
+        <div className={s.Modal}>
           <img src={largeImageURL} alt={alt} />
         </div>
       </div>,

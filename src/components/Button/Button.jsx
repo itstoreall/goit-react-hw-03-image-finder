@@ -1,4 +1,5 @@
 import React from 'react';
+import s from './Button.module.scss';
 
 const Button = ({ hits, isLoading, onClick }) => {
   const shouldRenderLoadMoreButton = hits.length > 0 && !isLoading;
@@ -6,7 +7,7 @@ const Button = ({ hits, isLoading, onClick }) => {
   return (
     <>
       {shouldRenderLoadMoreButton && (
-        <button className="Button" type="button" onClick={onClick}>
+        <button className={s.Button} type="button" onClick={onClick}>
           Load more
         </button>
       )}
