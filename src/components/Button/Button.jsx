@@ -6,7 +6,7 @@ const Button = ({ hits, isLoading, onClick }) => {
   return (
     <>
       {shouldRenderLoadMoreButton && (
-        <button type="button" onClick={onClick}>
+        <button className="Button" type="button" onClick={onClick}>
           Load more
         </button>
       )}

@@ -17,6 +17,8 @@ class App extends Component {
     isLoading: false,
     error: null,
     showModal: false,
+    largeImageURL: '',
+    alt: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,24 +57,49 @@ class App extends Component {
       .finally(() => this.setState({ isLoading: false }));
   };
 
-  toggleModal = () => {
+  toggleModal = (largeImageURL, alt) => {
+    const { showModal } = this.state;
+
+    !showModal && this.setState({ largeImageURL: largeImageURL, alt: alt });
+
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
   };
 
   render() {
-    const { hits, isLoading, error, showModal } = this.state;
+    const {
+      hits,
+      isLoading,
+      error,
+      showModal,
+      largeImageURL,
+      alt,
+    } = this.state;
+    const { onChangeQuery, toggleModal, fetchHits } = this;
+
     return (
       <>
-        <Searchbar onSubmit={this.onChangeQuery} />
+        <Searchbar onSubmit={onChangeQuery} />
         {error && <span>ERROR</span>}
-        <ImageGallery hits={this.state.hits} onClick={this.toggleModal} />
+        <ImageGallery hits={hits} onClick={toggleModal} />
         {isLoading && (
-          <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+          <Loader
+            className="Loader"
+            type="ThreeDots"
+            color="#00BFFF"
+            height={80}
+            width={80}
+          />
         )}
-        <Button hits={hits} isLoading={isLoading} onClick={this.fetchHits} />
-        {showModal && <Modal onClose={this.toggleModal} />}
+        <Button hits={hits} isLoading={isLoading} onClick={fetchHits} />
+        {showModal && (
+          <Modal
+            onClose={toggleModal}
+            largeImageURL={largeImageURL}
+            alt={alt}
+          />
+        )}
       </>
     );
   }

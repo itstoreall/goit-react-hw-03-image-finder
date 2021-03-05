@@ -13,6 +13,7 @@ const ImageGallery = ({ hits, onClick }) => {
               src={hit.webformatURL}
               alt={hit.tags}
               onClick={onClick}
+              largeImageURL={hit.largeImageURL}
             />
           );
         })}
