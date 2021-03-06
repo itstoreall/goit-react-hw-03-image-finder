@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import s from './Button.module.scss';
 
 const Button = ({ hits, isLoading, onClick }) => {
@@ -13,6 +14,12 @@ const Button = ({ hits, isLoading, onClick }) => {
       )}
     </>
   );
+};
+
+Button.propTypes = {
+  hits: PropTypes.array,
+  isLoading: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Button;

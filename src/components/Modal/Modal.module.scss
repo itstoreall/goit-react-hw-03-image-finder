@@ -11,7 +11,19 @@
   z-index: 1200;
 
   .Modal {
-    max-width: calc(100vw - 48px);
-    max-height: calc(100vh - 24px);
+    display: flex;
+    align-items: center;
+    max-width: calc(100vw - 20px);
+    max-height: calc(100vh);
+    overflow: hidden;
+
+    @media screen and (min-width: 768px) {
+      max-width: calc(100vw - 60px);
+      max-height: calc(100vh - 80px);
+    }
+
+    @media screen and (min-width: 900px) {
+      max-width: calc(100vw - 15%);
+    }
   }
 }
